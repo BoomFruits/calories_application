@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "980180665755",
+    "firebase_url": "https://helloworld-e5182-default-rtdb.firebaseio.com",
+    "project_id": "helloworld-e5182",
+    "storage_bucket": "helloworld-e5182.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980180665755:android:f2f9d535f527e20ba60d3e",
+        "android_client_info": {
+          "package_name": "com.example.clone_calories_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPkeoXZ5bEFxi2LmGbuGQsCdAwI7vvBz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980180665755:android:1685ae7a0aae5428a60d3e",
+        "android_client_info": {
+          "package_name": "com.example.helloworld1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPkeoXZ5bEFxi2LmGbuGQsCdAwI7vvBz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
