@@ -1,10 +1,10 @@
 package com.example.clone_calories_app.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,14 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.clone_calories_app.R;
 import com.example.clone_calories_app.entity.Dish;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DishListViewAdapter extends RecyclerView.Adapter<DishListViewAdapter.MyViewHolder> {
     private List<Dish> lst = new ArrayList<>();
-    public DishListViewAdapter(List<Dish> lst,Context context) {
+    private IClickListener mClickListener;
+    public interface  IClickListener {
+        void onClickDeleteItem(Dish dish);
+        void onClickDetails (Dish dish);
+        void onClickAddItem(Dish dish);
+    }
+    public DishListViewAdapter(List<Dish> lst,IClickListener listener,Context context) {
         this.lst = lst;
+        this.mClickListener = listener;
         this.context = context;
     }
     private Context context;
@@ -43,15 +51,25 @@ public class DishListViewAdapter extends RecyclerView.Adapter<DishListViewAdapte
 //        holder.imageView.setImageResource(di.getImg());
         Glide.with(context).load(lst.get(position).getImgUrl()).into(holder.imageView);
         holder.textView.setText(di.getName());
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.textCalories.setText(di.getCaloriesPer100Gm()+" calories");
+        holder.textGam.setText(di.parseCalories(di.getWeight())+" g");
+        holder.button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(context,di.getName().toString(), Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context.getApplicationContext());
-
+                mClickListener.onClickDeleteItem(di);
             }
         });
 
+        holder.itemView.setOnClickListener(view -> {
+            mClickListener.onClickDetails(lst.get(position));
+        });
+
+        holder.button_add_to_diary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.onClickAddItem(di);
+            }
+        });
     }
 
 
@@ -64,11 +82,31 @@ public class DishListViewAdapter extends RecyclerView.Adapter<DishListViewAdapte
        final private CardView cardView;
        final private ImageView imageView;
        final private TextView textView;
+       final private TextView textCalories;
+       final private TextView textGam;
+        private ImageButton button_delete;
+       private FloatingActionButton button_add_to_diary;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardview);
             imageView = itemView.findViewById(R.id.item_image_view);
             textView = itemView.findViewById(R.id.item_text);
+            textCalories = itemView.findViewById(R.id.item_calories);
+            textGam = itemView.findViewById(R.id.item_g);
+            button_add_to_diary = itemView.findViewById(R.id.btn_add_dish_diary);
+            button_delete = itemView.findViewById(R.id.btn_delete_dish);
+            button_add_to_diary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(button_add_to_diary.getTag() == null || button_add_to_diary.getTag().equals("add")){
+                        button_add_to_diary.setImageResource(R.drawable.baseline_check_24);
+                        button_add_to_diary.setTag("check");
+                    } else {
+                        button_add_to_diary.setImageResource(R.drawable.baseline_add_24);
+                        button_add_to_diary.setTag("add");
+                    }
+                }
+            });
         }
     }
 }
